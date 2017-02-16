@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, DoctorLoginActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_share) {
 
