@@ -36,5 +36,13 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:layout_centerHorizontal="true"
-        android:text="Time : " />
+        android:text="Time : "
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        android:text="Schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button7"
+        android:layout_weight="0.05" />
 </LinearLayout>

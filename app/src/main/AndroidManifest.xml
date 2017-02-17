@@ -23,7 +23,8 @@
         <activity android:name=".DoctorLoginActivity" />
         <activity android:name=".DashboardActivity" />
         <activity android:name=".AppointmentActivity" />
-        <activity android:name=".TakeAppointmentActivity"></activity>
+        <activity android:name=".TakeAppointmentActivity" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

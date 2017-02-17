@@ -6,7 +6,9 @@ import android.text.format.DateFormat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philliphsu.bottomsheetpickers.date.BottomSheetDatePickerDialog;
 import com.philliphsu.bottomsheetpickers.date.DatePickerDialog;
@@ -21,6 +23,7 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
 
     private TextView mText;
     private TextView mDate;
+    private Button schedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
 
         mText = (TextView) findViewById(R.id.text);
         mDate = (TextView) findViewById(R.id.date);
+        schedule = (Button) findViewById(R.id.button7);
 
         mText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +60,14 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
                 dialog.setMaxDate(max);
                 dialog.setYearRange(1970, 2032);
                 dialog.show(getSupportFragmentManager(), TAG);
+            }
+        });
+
+        schedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Your appointment is booked successfully", Toast.LENGTH_LONG).show();
+                finish();
             }
         });
     }
