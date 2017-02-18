@@ -29,6 +29,14 @@ public class DocDashboardActivity extends AppCompatActivity {
             }
         });
 
+        patientsList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), PatientsListActivity.class);
+                startActivity(intent);
+            }
+        });
+
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -7,22 +7,24 @@
     android:paddingBottom="10dp">
 
     <TextView
-        android:id="@+id/doc_name"
+        android:id="@+id/btn_patient_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
-    <TextView
-        android:id="@+id/date"
+    <Button
+        android:id="@+id/btn_prescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textSize="10sp" />
 
-    <TextView
-        android:id="@+id/time"
+    <Button
+        android:id="@+id/btn_test_reports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textSize="10sp" />
 </LinearLayout>
