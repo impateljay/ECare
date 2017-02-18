@@ -171,6 +171,7 @@ public class SignupActivity extends AppCompatActivity {
         } else {
             _reEnterPasswordText.setError(null);
         }
+
         return valid;
     }
 }
