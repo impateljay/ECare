@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "189068152878",
+    "firebase_url": "https://ecare-680c3.firebaseio.com",
+    "project_id": "ecare-680c3",
+    "storage_bucket": "ecare-680c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189068152878:android:3ad56d8b4aa508b8",
+        "android_client_info": {
+          "package_name": "com.harsh.ecare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "189068152878-gl7edu1td3dn4ln6vmnqt5c1sa8igrv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDInGYtP_8SCrMZAN4O2tmIcmIP-XjB7ds"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

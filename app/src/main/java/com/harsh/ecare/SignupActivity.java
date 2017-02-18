@@ -3,6 +3,7 @@ package com.harsh.ecare;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -22,14 +28,14 @@ public class SignupActivity extends AppCompatActivity {
     private EditText _reEnterPasswordText;
     private Button _signupButton;
     private TextView _loginLink;
-//    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-//        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         _nameText = (EditText) findViewById(R.id.input_name);
         _addressText = (EditText) findViewById(R.id.input_address);
         _emailText = (EditText) findViewById(R.id.input_email);
@@ -82,34 +88,22 @@ public class SignupActivity extends AppCompatActivity {
         String reEnterPassword = _reEnterPasswordText.getText().toString();
 
         // TODO: Implement your own signup logic here.
-//        firebaseAuth.createUserWithEmailAndPassword(email,password)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if(task.isSuccessful()){
-//                            // On complete call either onSignupSuccess or onSignupFailed
-//                            // depending on success
-//                            onSignupSuccess();
-//                            // onSignupFailed();
-//                            progressDialog.dismiss();
-//                        }
-//                        else {
-//                            onSignupFailed();
-//                            progressDialog.dismiss();
-//                        }
-//                    }
-//                });
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // On complete call either onSignupSuccess or onSignupFailed
+                            // depending on success
+                            onSignupSuccess();
+                            // onSignupFailed();
+                            progressDialog.dismiss();
+                        } else {
+                            onSignupFailed();
+                            progressDialog.dismiss();
+                        }
                     }
-                }, 3000);
+                });
     }
 
 
