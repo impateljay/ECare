@@ -17,8 +17,6 @@ import com.philliphsu.bottomsheetpickers.date.DatePickerDialog;
 import com.philliphsu.bottomsheetpickers.time.BottomSheetTimePickerDialog;
 import com.philliphsu.bottomsheetpickers.time.numberpad.NumberPadTimePickerDialog;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.Calendar;
 
 public class TakeAppointmentActivity extends AppCompatActivity implements
@@ -110,9 +108,9 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
     }
 
     private void createAppointment(String doctorName, String date, String time) {
-        SecureRandom random = new SecureRandom();
-        String appointmentId = new BigInteger(130, random).toString(32);
+//        SecureRandom random = new SecureRandom();
+//        String appointmentId = new BigInteger(130, random).toString(32);
         Appointment user = new Appointment(date, time, doctorName, "Harsh");
-        mDatabase.child("appointment").child(appointmentId).setValue(user);
+        mDatabase.child("appointment").setValue(user);
     }
 }

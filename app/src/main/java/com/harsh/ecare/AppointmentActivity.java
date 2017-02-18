@@ -7,6 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -14,6 +21,7 @@ public class AppointmentActivity extends AppCompatActivity {
 
     ArrayList<Appointment> contacts;
     private Button takeAppointment;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +40,27 @@ public class AppointmentActivity extends AppCompatActivity {
         // Lookup the recyclerview in activity layout
         RecyclerView rvContacts = (RecyclerView) findViewById(R.id.appointmentList);
         // Initialize contacts
-        contacts = Appointment.createContactsList(20);
+//        contacts = Appointment.createContactsList(20);
         // Create adapter passing in the sample user data
+        try {
+            mDatabase = FirebaseDatabase.getInstance().getReference("appointment");
+            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Appointment user = dataSnapshot.getValue(Appointment.class);
+//                    Toast.makeText(getApplicationContext(), "Date: " + user.getDate() + ", Time:" + user.getTime() + ", Doctor:" + user.getDoctor() + ", Patient:" + user.getPatient(),Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Failed to read value
+                    Toast.makeText(getApplicationContext(), "Failed to read value." + databaseError.toException(), Toast.LENGTH_LONG).show();
+                }
+            });
+        } catch (Exception ex) {
+
+        }
+
         AppointmentsAdapter adapter = new AppointmentsAdapter(this, contacts);
         // Attach the adapter to the recyclerview to populate items
         rvContacts.setAdapter(adapter);

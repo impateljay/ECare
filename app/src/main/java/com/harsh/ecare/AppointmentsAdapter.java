@@ -44,7 +44,7 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
 
     @Override
     public int getItemCount() {
-        return mContacts.size();
+        return 0;//mContacts.size();
     }
 
     // Provide a direct reference to each of the views within a data item
