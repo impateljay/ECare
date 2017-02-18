@@ -1,17 +1,22 @@
 package com.harsh.ecare;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.ArrayList;
 
 /**
  * Created by Jay on 16-02-2017.
  */
-
+@IgnoreExtraProperties
 public class Appointment {
 
     private String date;
     private String time;
     private String doctor;
     private String patient;
+
+    public Appointment() {
+    }
 
     public Appointment(String date, String time, String doctor, String patient) {
         this.date = date;

@@ -10,11 +10,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.philliphsu.bottomsheetpickers.date.BottomSheetDatePickerDialog;
 import com.philliphsu.bottomsheetpickers.date.DatePickerDialog;
 import com.philliphsu.bottomsheetpickers.time.BottomSheetTimePickerDialog;
 import com.philliphsu.bottomsheetpickers.time.numberpad.NumberPadTimePickerDialog;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Calendar;
 
 public class TakeAppointmentActivity extends AppCompatActivity implements
@@ -23,13 +27,17 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
 
     private TextView mText;
     private TextView mDate;
+    private String selectedDate;
+    private String selectedTime;
     private Button schedule;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_appointment);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mText = (TextView) findViewById(R.id.text);
         mDate = (TextView) findViewById(R.id.date);
         schedule = (Button) findViewById(R.id.button7);
@@ -67,6 +75,7 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Your appointment is booked successfully", Toast.LENGTH_LONG).show();
+                createAppointment("Doctor Name", selectedDate, selectedTime);
                 finish();
             }
         });
@@ -78,6 +87,7 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
         cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
         cal.set(Calendar.MINUTE, minute);
         mText.setText("Time : " + DateFormat.getTimeFormat(this).format(cal.getTime()));
+        selectedTime = DateFormat.getTimeFormat(this).format(cal.getTime());
     }
 
     @Override
@@ -87,6 +97,7 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
         cal.set(Calendar.MONTH, monthOfYear);
         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         mDate.setText("Date : " + DateFormat.getDateFormat(this).format(cal.getTime()));
+        selectedDate = DateFormat.getDateFormat(this).format(cal.getTime());
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -96,5 +107,12 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
                 break;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void createAppointment(String doctorName, String date, String time) {
+        SecureRandom random = new SecureRandom();
+        String appointmentId = new BigInteger(130, random).toString(32);
+        Appointment user = new Appointment(date, time, doctorName, "Harsh");
+        mDatabase.child("appointment").child(appointmentId).setValue(user);
     }
 }
