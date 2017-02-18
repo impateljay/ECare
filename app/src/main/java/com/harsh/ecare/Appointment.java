@@ -11,11 +11,13 @@ public class Appointment {
     private String date;
     private String time;
     private String doctor;
+    private String patient;
 
-    public Appointment(String date, String time, String doctor) {
+    public Appointment(String date, String time, String doctor, String patient) {
         this.date = date;
         this.time = time;
         this.doctor = doctor;
+        this.patient = patient;
     }
 
     public String getDate() {
@@ -42,13 +44,21 @@ public class Appointment {
         this.doctor = doctor;
     }
 
+    public String getPatient() {
+        return patient;
+    }
+
+    public void setPatient(String patient) {
+        this.patient = patient;
+    }
+
     private static int lastAppointmentId = 0;
 
     public static ArrayList<Appointment> createContactsList(int numContacts) {
         ArrayList<Appointment> contacts = new ArrayList<Appointment>();
 
         for (int i = 1; i <= numContacts; i++) {
-            contacts.add(new Appointment("Appointment " + ++lastAppointmentId, "15:00", "Doctor" + ++lastAppointmentId));
+            contacts.add(new Appointment("19-02-2017", "15:00", "Doctor" + ++lastAppointmentId, "Patient " + lastAppointmentId));
         }
 
         return contacts;

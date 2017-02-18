@@ -87,9 +87,9 @@ public class DoctorLoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
-        finish();
-//        Intent intent = new Intent(this,PatientActivity.class);
-//        startActivity(intent);
+//        finish();
+        Intent intent = new Intent(this, DocDashboardActivity.class);
+        startActivity(intent);
     }
 
     public void onLoginFailed() {
