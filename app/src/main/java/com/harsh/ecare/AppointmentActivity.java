@@ -22,6 +22,7 @@ public class AppointmentActivity extends AppCompatActivity {
     ArrayList<Appointment> contacts;
     private Button takeAppointment;
     private DatabaseReference mDatabase;
+    private AppointmentsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class AppointmentActivity extends AppCompatActivity {
         // Lookup the recyclerview in activity layout
         RecyclerView rvContacts = (RecyclerView) findViewById(R.id.appointmentList);
         // Initialize contacts
-//        contacts = Appointment.createContactsList(20);
+        contacts = new ArrayList<Appointment>();
         // Create adapter passing in the sample user data
         try {
             mDatabase = FirebaseDatabase.getInstance().getReference("appointment");
@@ -48,7 +49,11 @@ public class AppointmentActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Appointment user = dataSnapshot.getValue(Appointment.class);
-//                    Toast.makeText(getApplicationContext(), "Date: " + user.getDate() + ", Time:" + user.getTime() + ", Doctor:" + user.getDoctor() + ", Patient:" + user.getPatient(),Toast.LENGTH_LONG).show();
+                    if (user != null) {
+                        contacts.add(user);
+                        Toast.makeText(getApplicationContext(), "Date: " + user.getDate() + ", Time:" + user.getTime() + ", Doctor:" + user.getDoctor() + ", Patient:" + user.getPatient(), Toast.LENGTH_LONG).show();
+                        adapter.notifyDataSetChanged();
+                    }
                 }
 
                 @Override
@@ -61,7 +66,7 @@ public class AppointmentActivity extends AppCompatActivity {
 
         }
 
-        AppointmentsAdapter adapter = new AppointmentsAdapter(this, contacts);
+        adapter = new AppointmentsAdapter(this, contacts);
         // Attach the adapter to the recyclerview to populate items
         rvContacts.setAdapter(adapter);
         // Set layout manager to position the items
