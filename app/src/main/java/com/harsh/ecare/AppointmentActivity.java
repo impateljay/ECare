@@ -97,14 +97,11 @@ public class AppointmentActivity extends AppCompatActivity {
 
         //iterate through each user, ignoring their UID
         for (Map.Entry<String, Object> entry : users.entrySet()) {
-
             //Get user map
             Map singleUser = (Map) entry.getValue();
             //Get phone field and append to list
             String date = (String) singleUser.get("date");
-            ;
             String time = (String) singleUser.get("time");
-            ;
             String doctor = (String) singleUser.get("doctor");
             String patient = (String) singleUser.get("patient");
             contacts.add(new Appointment(date, time, doctor, patient));
