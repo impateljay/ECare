@@ -2,6 +2,7 @@ package com.harsh.ecare;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class SignupActivity extends AppCompatActivity {
     private Button _signupButton;
     private TextView _loginLink;
     private FirebaseAuth firebaseAuth;
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,7 @@ public class SignupActivity extends AppCompatActivity {
 
         String name = _nameText.getText().toString();
         String address = _addressText.getText().toString();
-        String email = _emailText.getText().toString();
+        final String email = _emailText.getText().toString();
         String mobile = _mobileText.getText().toString();
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
@@ -95,6 +97,11 @@ public class SignupActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // On complete call either onSignupSuccess or onSignupFailed
                             // depending on success
+
+                            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                            editor.putString("loggedinUserEmail", email);
+                            editor.commit();
+
                             onSignupSuccess();
                             // onSignupFailed();
                             progressDialog.dismiss();
