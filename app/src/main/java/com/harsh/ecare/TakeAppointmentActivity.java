@@ -17,6 +17,8 @@ import com.philliphsu.bottomsheetpickers.date.DatePickerDialog;
 import com.philliphsu.bottomsheetpickers.time.BottomSheetTimePickerDialog;
 import com.philliphsu.bottomsheetpickers.time.numberpad.NumberPadTimePickerDialog;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Calendar;
 
 public class TakeAppointmentActivity extends AppCompatActivity implements
@@ -35,7 +37,7 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_appointment);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference("appointment");
         mText = (TextView) findViewById(R.id.text);
         mDate = (TextView) findViewById(R.id.date);
         schedule = (Button) findViewById(R.id.button7);
@@ -108,9 +110,10 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
     }
 
     private void createAppointment(String doctorName, String date, String time) {
-//        SecureRandom random = new SecureRandom();
-//        String appointmentId = new BigInteger(130, random).toString(32);
+        SecureRandom random = new SecureRandom();
+        String appointmentId = new BigInteger(130, random).toString(32);
+        String userId = mDatabase.push().getKey();
         Appointment user = new Appointment(date, time, doctorName, "Harsh");
-        mDatabase.child("appointment").setValue(user);
+        mDatabase.child(userId).setValue(user);
     }
 }

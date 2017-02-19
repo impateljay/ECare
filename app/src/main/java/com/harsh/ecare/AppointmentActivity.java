@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class AppointmentActivity extends AppCompatActivity {
 
@@ -44,16 +45,19 @@ public class AppointmentActivity extends AppCompatActivity {
         contacts = new ArrayList<Appointment>();
         // Create adapter passing in the sample user data
         try {
-            mDatabase = FirebaseDatabase.getInstance().getReference("appointment");
+            mDatabase = FirebaseDatabase.getInstance().getReference().child("appointment");
             mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Appointment user = dataSnapshot.getValue(Appointment.class);
-                    if (user != null) {
-                        contacts.add(user);
-                        Toast.makeText(getApplicationContext(), "Date: " + user.getDate() + ", Time:" + user.getTime() + ", Doctor:" + user.getDoctor() + ", Patient:" + user.getPatient(), Toast.LENGTH_LONG).show();
-                        adapter.notifyDataSetChanged();
-                    }
+
+                    collectPhoneNumbers((Map<String, Object>) dataSnapshot.getValue());
+
+//                    Appointment user = dataSnapshot.getValue(Appointment.class);
+//                    if(user != null){
+//                        contacts.add(user);
+//                        Toast.makeText(getApplicationContext(), "Date: " + user.getDate() + ", Time:" + user.getTime() + ", Doctor:" + user.getDoctor() + ", Patient:" + user.getPatient(),Toast.LENGTH_LONG).show();
+//                        adapter.notifyDataSetChanged();
+//                    }
                 }
 
                 @Override
@@ -62,6 +66,21 @@ public class AppointmentActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Failed to read value." + databaseError.toException(), Toast.LENGTH_LONG).show();
                 }
             });
+//            mDatabase.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    ArrayList<Appointment> td = (ArrayList<Appointment>) dataSnapshot.getValue();
+//                    if(td!=null){
+//                        contacts.addAll(td);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
         } catch (Exception ex) {
 
         }
@@ -72,5 +91,25 @@ public class AppointmentActivity extends AppCompatActivity {
         // Set layout manager to position the items
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         // That's all!
+    }
+
+    private void collectPhoneNumbers(Map<String, Object> users) {
+
+        //iterate through each user, ignoring their UID
+        for (Map.Entry<String, Object> entry : users.entrySet()) {
+
+            //Get user map
+            Map singleUser = (Map) entry.getValue();
+            //Get phone field and append to list
+            String date = (String) singleUser.get("date");
+            ;
+            String time = (String) singleUser.get("time");
+            ;
+            String doctor = (String) singleUser.get("doctor");
+            String patient = (String) singleUser.get("patient");
+            contacts.add(new Appointment(date, time, doctor, patient));
+            Toast.makeText(getApplicationContext(), "Date: " + date + ", Time:" + time + ", Doctor:" + doctor + ", Patient:" + patient, Toast.LENGTH_LONG).show();
+            adapter.notifyDataSetChanged();
+        }
     }
 }
