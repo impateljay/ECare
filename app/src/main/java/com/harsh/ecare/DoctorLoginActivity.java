@@ -2,6 +2,7 @@ package com.harsh.ecare;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import static com.harsh.ecare.SignupActivity.MY_PREFS_NAME;
 
 public class DoctorLoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -57,6 +60,16 @@ public class DoctorLoginActivity extends AppCompatActivity {
         if ((email.equals("doc@gmail.com") || email.equals("doctor@gmail.com") || email.equals("caregiver@gmail.com")) && password.equals("12345")) {
             // On complete call either onLoginSuccess or onLoginFailed
             onLoginSuccess();
+            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            if (email.equals("doc@gmail.com")) {
+                editor.putString("loggedinUserName", "Doctor 1");
+            } else if (email.equals("doctor@gmail.com")) {
+                editor.putString("loggedinUserName", "Doctor 2");
+            } else if (email.equals("caregiver@gmail.com")) {
+                editor.putString("loggedinUserName", "Doctor 3");
+            }
+            editor.putString("loggedinUserEmail", email);
+            editor.commit();
             progressDialog.dismiss();
         } else {
             onLoginFailed();

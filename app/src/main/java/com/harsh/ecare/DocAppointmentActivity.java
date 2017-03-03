@@ -1,5 +1,6 @@
 package com.harsh.ecare;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,10 +11,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import static com.harsh.ecare.SignupActivity.MY_PREFS_NAME;
 
 public class DocAppointmentActivity extends AppCompatActivity {
 
@@ -33,8 +37,11 @@ public class DocAppointmentActivity extends AppCompatActivity {
 
 
         try {
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String restoredText = prefs.getString("loggedinUserName", null);
             mDatabase = FirebaseDatabase.getInstance().getReference().child("appointment");
-            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            Query query = mDatabase.orderByChild("doctor").equalTo(restoredText.toString());
+            query.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
