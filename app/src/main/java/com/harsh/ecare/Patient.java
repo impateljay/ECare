@@ -9,14 +9,12 @@ import java.util.ArrayList;
 public class Patient {
 
     private String Name;
-    private int Age;
     private String Address;
     private String MobileNumber;
     private String emailId;
 
-    public Patient(String name, int age, String address, String mobileNumber, String emailId) {
+    public Patient(String name, String address, String mobileNumber, String emailId) {
         Name = name;
-        Age = age;
         Address = address;
         MobileNumber = mobileNumber;
         this.emailId = emailId;
@@ -28,14 +26,6 @@ public class Patient {
 
     public void setName(String name) {
         Name = name;
-    }
-
-    public int getAge() {
-        return Age;
-    }
-
-    public void setAge(int age) {
-        Age = age;
     }
 
     public String getAddress() {
@@ -66,7 +56,7 @@ public class Patient {
         ArrayList<Patient> contacts = new ArrayList<Patient>();
 
         for (int i = 1; i <= numContacts; i++) {
-            contacts.add(new Patient("Patient Name", 50, "Mumbai", "1234567890", "abc@xyz.com"));
+            contacts.add(new Patient("Patient Name", "Mumbai", "1234567890", "abc@xyz.com"));
         }
 
         return contacts;

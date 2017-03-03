@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,7 +71,7 @@ public class DocAppointmentsAdapter extends RecyclerView.Adapter<DocAppointments
     }
 
     // Store a member variable for the contacts
-    private List<Appointment> mContacts;
+    private List<Appointment> mContacts = new ArrayList<>();
     // Store the context for easy access
     private Context mContext;
 

@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -29,6 +31,7 @@ public class SignupActivity extends AppCompatActivity {
     private EditText _reEnterPasswordText;
     private Button _signupButton;
     private TextView _loginLink;
+    private DatabaseReference mDatabase;
     private FirebaseAuth firebaseAuth;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
 
@@ -37,6 +40,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference("patients");
         firebaseAuth = FirebaseAuth.getInstance();
         _nameText = (EditText) findViewById(R.id.input_name);
         _addressText = (EditText) findViewById(R.id.input_address);
@@ -82,10 +86,10 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String name = _nameText.getText().toString();
-        String address = _addressText.getText().toString();
+        final String name = _nameText.getText().toString();
+        final String address = _addressText.getText().toString();
         final String email = _emailText.getText().toString();
-        String mobile = _mobileText.getText().toString();
+        final String mobile = _mobileText.getText().toString();
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
 
@@ -97,13 +101,14 @@ public class SignupActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // On complete call either onSignupSuccess or onSignupFailed
                             // depending on success
-
+                            String userId = mDatabase.push().getKey();
+                            Patient user = new Patient(name, address, mobile, email);
+                            mDatabase.child(userId).setValue(user);
                             SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                             editor.putString("loggedinUserEmail", email);
+                            editor.putString("loggedinUserName", name);
                             editor.commit();
-
                             onSignupSuccess();
-                            // onSignupFailed();
                             progressDialog.dismiss();
                         } else {
                             onSignupFailed();

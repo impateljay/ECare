@@ -17,6 +17,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
 
 import static com.harsh.ecare.SignupActivity.MY_PREFS_NAME;
 
@@ -29,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText _passwordText;
     private Button _loginButton;
     private TextView _signupLink;
+    private DatabaseReference mDatabase;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,11 +96,30 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // On complete call either onLoginSuccess or onLoginFailed
-                            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                            editor.putString("loggedinUserEmail", email);
-                            editor.commit();
+                            mDatabase = FirebaseDatabase.getInstance().getReference();
+                            Query query = mDatabase.child("patients").orderByChild("emailId").equalTo(email.toString());//.equalTo(email);
+                            query.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot != null || dataSnapshot.getChildrenCount() > 0) {
+                                        collectPhoneNumbers((Map<String, Object>) dataSnapshot.getValue());
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Toast.makeText(getApplicationContext(), "sadsad", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            // the rest of the code remains the same as above
+//                                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+//                                editor.putString("loggedinUserEmail",email);
+//                                editor.commit();
+
                             onLoginSuccess();
+
                             progressDialog.dismiss();
+
                         } else {
                             onLoginFailed();
                             progressDialog.dismiss();
@@ -155,5 +183,26 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private void collectPhoneNumbers(Map<String, Object> users) {
+
+        if (users != null && !users.isEmpty()) {
+            //iterate through each user, ignoring their UID
+            for (Map.Entry<String, Object> entry : users.entrySet()) {
+                //Get user map
+                Map singleUser = (Map) entry.getValue();
+                //Get phone field and append to list
+                String address = (String) singleUser.get("address");
+                String emailId = (String) singleUser.get("emailId");
+                String mobileNumber = (String) singleUser.get("mobileNumber");
+                String name = (String) singleUser.get("name");
+//                Toast.makeText(getApplicationContext(), "address: " + address + ", emailId:" + emailId + ", mobileNumber:" + mobileNumber + ", name:" + name, Toast.LENGTH_LONG).show();
+                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putString("loggedinUserName", name);
+                editor.putString("loggedinUserEmail", emailId);
+                editor.commit();
+            }
+        }
     }
 }

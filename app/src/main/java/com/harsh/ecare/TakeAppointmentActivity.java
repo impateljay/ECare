@@ -1,5 +1,6 @@
 package com.harsh.ecare;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
@@ -20,11 +21,11 @@ import com.philliphsu.bottomsheetpickers.time.BottomSheetTimePickerDialog;
 import com.philliphsu.bottomsheetpickers.time.numberpad.NumberPadTimePickerDialog;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import static com.harsh.ecare.SignupActivity.MY_PREFS_NAME;
 
 public class TakeAppointmentActivity extends AppCompatActivity implements
         BottomSheetTimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
@@ -148,10 +149,12 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
     }
 
     private void createAppointment(String doctorName, String date, String time) {
-        SecureRandom random = new SecureRandom();
-        String appointmentId = new BigInteger(130, random).toString(32);
+//        SecureRandom random = new SecureRandom();
+//        String appointmentId = new BigInteger(130, random).toString(32);
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String restoredText = prefs.getString("loggedinUserName", null);
         String userId = mDatabase.push().getKey();
-        Appointment user = new Appointment(date, time, doctorName, "Harsh");
+        Appointment user = new Appointment(date, time, doctorName, restoredText);
         mDatabase.child(userId).setValue(user);
     }
 }
