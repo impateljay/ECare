@@ -1,5 +1,7 @@
 package com.harsh.ecare;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -97,9 +99,64 @@ public class AppointmentActivity extends AppCompatActivity {
         adapter = new AppointmentsAdapter(this, contacts);
         // Attach the adapter to the recyclerview to populate items
         rvContacts.setAdapter(adapter);
+        rvContacts.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         // Set layout manager to position the items
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         // That's all!
+        rvContacts.addOnItemTouchListener(new RecyclerTouchListener(this, rvContacts, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                final Appointment movie = contacts.get(position);
+                AlertDialog alertDialog = new AlertDialog.Builder(
+                        AppointmentActivity.this).create();
+
+                // Setting Dialog Title
+                alertDialog.setTitle("E-Care");
+
+                // Setting Dialog Message
+                alertDialog.setMessage("Do you want to delete appointment!");
+
+                // Setting OK Button
+                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Write your code here to execute after dialog closed
+
+                        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                                Map<String, Object> a = (Map<String, Object>) dataSnapshot.getValue();
+                                for (Map.Entry<String, Object> entry : a.entrySet()) {
+                                    //Get user map
+                                    Map singleUser = (Map) entry.getValue();
+                                    //Get phone field and append to list
+                                    String date = (String) singleUser.get("date");
+                                    String time = (String) singleUser.get("time");
+                                    String doctor = (String) singleUser.get("doctor");
+                                    String patient = (String) singleUser.get("patient");
+                                    if (date.equals(movie.getDate()) && patient.equals(movie.getPatient()) && doctor.equals(movie.getDoctor()) && time.equals(movie.getTime())) {
+                                        mDatabase.child(entry.getKey()).removeValue();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Toast.makeText(getApplicationContext(), databaseError.toException().toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                // Showing Alert Message
+                alertDialog.show();
+            }
+        }));
     }
 
     private void collectPhoneNumbers(Map<String, Object> users) {
