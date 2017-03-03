@@ -6,6 +6,7 @@ import android.text.format.DateFormat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
         BottomSheetTimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
     private static final String TAG = "MainActivity";
 
+    private String mSelectedText;
     private TextView mText;
     private TextView mDate;
     private String selectedDate;
@@ -63,6 +65,13 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
 
+        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                mSelectedText = adapterView.getItemAtPosition(position).toString();
+            }
+        });
+
         mText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,9 +104,17 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
         schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createAppointment("Doctor Name", selectedDate, selectedTime);
-                Toast.makeText(getApplicationContext(), "Your appointment is booked successfully", Toast.LENGTH_LONG).show();
-                finish();
+                if (mSelectedText == null || mSelectedText.isEmpty()) {
+                    Toast.makeText(view.getContext(), "Please select doctor", Toast.LENGTH_SHORT).show();
+                } else if (selectedDate == null || selectedDate.isEmpty()) {
+                    Toast.makeText(view.getContext(), "Please select Date", Toast.LENGTH_SHORT).show();
+                } else if (selectedTime == null || selectedTime.isEmpty()) {
+                    Toast.makeText(view.getContext(), "Please select Time", Toast.LENGTH_SHORT).show();
+                } else {
+                    createAppointment(mSelectedText, selectedDate, selectedTime);
+                    Toast.makeText(getApplicationContext(), "Your appointment is booked successfully", Toast.LENGTH_LONG).show();
+                    finish();
+                }
             }
         });
     }

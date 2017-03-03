@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class AppointmentActivity extends AppCompatActivity {
 
-    ArrayList<Appointment> contacts;
+    private ArrayList<Appointment> contacts = new ArrayList<>();
     private Button takeAppointment;
     private DatabaseReference mDatabase;
     private AppointmentsAdapter adapter;
@@ -50,7 +50,9 @@ public class AppointmentActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    collectPhoneNumbers((Map<String, Object>) dataSnapshot.getValue());
+                    if (dataSnapshot != null || dataSnapshot.getChildrenCount() > 0) {
+                        collectPhoneNumbers((Map<String, Object>) dataSnapshot.getValue());
+                    }
 
 //                    Appointment user = dataSnapshot.getValue(Appointment.class);
 //                    if(user != null){
@@ -95,18 +97,20 @@ public class AppointmentActivity extends AppCompatActivity {
 
     private void collectPhoneNumbers(Map<String, Object> users) {
 
-        //iterate through each user, ignoring their UID
-        for (Map.Entry<String, Object> entry : users.entrySet()) {
-            //Get user map
-            Map singleUser = (Map) entry.getValue();
-            //Get phone field and append to list
-            String date = (String) singleUser.get("date");
-            String time = (String) singleUser.get("time");
-            String doctor = (String) singleUser.get("doctor");
-            String patient = (String) singleUser.get("patient");
-            contacts.add(new Appointment(date, time, doctor, patient));
-            Toast.makeText(getApplicationContext(), "Date: " + date + ", Time:" + time + ", Doctor:" + doctor + ", Patient:" + patient, Toast.LENGTH_LONG).show();
-            adapter.notifyDataSetChanged();
+        if (users != null && !users.isEmpty()) {
+            //iterate through each user, ignoring their UID
+            for (Map.Entry<String, Object> entry : users.entrySet()) {
+                //Get user map
+                Map singleUser = (Map) entry.getValue();
+                //Get phone field and append to list
+                String date = (String) singleUser.get("date");
+                String time = (String) singleUser.get("time");
+                String doctor = (String) singleUser.get("doctor");
+                String patient = (String) singleUser.get("patient");
+                contacts.add(new Appointment(date, time, doctor, patient));
+//            Toast.makeText(getApplicationContext(), "Date: " + date + ", Time:" + time + ", Doctor:" + doctor + ", Patient:" + patient, Toast.LENGTH_LONG).show();
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 }
