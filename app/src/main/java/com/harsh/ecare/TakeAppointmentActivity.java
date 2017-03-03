@@ -6,6 +6,7 @@ import android.text.format.DateFormat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,10 +17,13 @@ import com.philliphsu.bottomsheetpickers.date.BottomSheetDatePickerDialog;
 import com.philliphsu.bottomsheetpickers.date.DatePickerDialog;
 import com.philliphsu.bottomsheetpickers.time.BottomSheetTimePickerDialog;
 import com.philliphsu.bottomsheetpickers.time.numberpad.NumberPadTimePickerDialog;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class TakeAppointmentActivity extends AppCompatActivity implements
         BottomSheetTimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
@@ -30,6 +34,7 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
     private String selectedDate;
     private String selectedTime;
     private Button schedule;
+    private MaterialBetterSpinner spinner;
     private DatabaseReference mDatabase;
 
     @Override
@@ -37,10 +42,26 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_appointment);
 
+        spinner = (MaterialBetterSpinner) findViewById(R.id.spinner);
         mDatabase = FirebaseDatabase.getInstance().getReference("appointment");
         mText = (TextView) findViewById(R.id.text);
         mDate = (TextView) findViewById(R.id.date);
         schedule = (Button) findViewById(R.id.button7);
+
+        // Spinner Drop down elements
+        List<String> categories = new ArrayList<String>();
+        categories.add("Doctor 1");
+        categories.add("Doctor 2");
+        categories.add("Doctor 3");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, categories);
+//
+//        // Drop down layout style - list view with radio button
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
 
         mText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,8 +95,8 @@ public class TakeAppointmentActivity extends AppCompatActivity implements
         schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Your appointment is booked successfully", Toast.LENGTH_LONG).show();
                 createAppointment("Doctor Name", selectedDate, selectedTime);
+                Toast.makeText(getApplicationContext(), "Your appointment is booked successfully", Toast.LENGTH_LONG).show();
                 finish();
             }
         });
