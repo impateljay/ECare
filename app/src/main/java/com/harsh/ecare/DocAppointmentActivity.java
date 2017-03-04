@@ -95,6 +95,7 @@ public class DocAppointmentActivity extends AppCompatActivity {
     private void collectPhoneNumbers(Map<String, Object> users) {
 
         if (users != null && !users.isEmpty()) {
+            contacts.clear();
             //iterate through each user, ignoring their UID
             for (Map.Entry<String, Object> entry : users.entrySet()) {
                 //Get user map
