@@ -1,6 +1,7 @@
 package com.harsh.ecare;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,8 @@ public class PatientsListAdapter extends RecyclerView.Adapter<PatientsListAdapte
         button.setText("Prescription");
         TextView date = holder.testReport;
         date.setText("Reports");
+
+
     }
 
     @Override
@@ -48,9 +51,54 @@ public class PatientsListAdapter extends RecyclerView.Adapter<PatientsListAdapte
         return mContacts.size();
     }
 
+
+//    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+//
+//        private GestureDetector gestureDetector;
+//        private ClickListener clickListener;
+//
+//        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
+//            this.clickListener = clickListener;
+//            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+//                @Override
+//                public boolean onSingleTapUp(MotionEvent e) {
+//                    return true;
+//                }
+//
+//                @Override
+//                public void onLongPress(MotionEvent e) {
+//                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+//                    if (child != null && clickListener != null) {
+//                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
+//                    }
+//                }
+//            });
+//        }
+//
+//        @Override
+//        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+//
+//            View child = rv.findChildViewUnder(e.getX(), e.getY());
+//            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
+//                clickListener.onClick(child, rv.getChildPosition(child));
+//            }
+//            return false;
+//        }
+//
+//        @Override
+//        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+//        }
+//
+//        @Override
+//        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+//
+//        }
+//    }
+
+
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView patientName;
@@ -67,13 +115,23 @@ public class PatientsListAdapter extends RecyclerView.Adapter<PatientsListAdapte
             patientName = (TextView) itemView.findViewById(R.id.btn_patient_name);
             prescription = (Button) itemView.findViewById(R.id.btn_prescription);
             testReport = (Button) itemView.findViewById(R.id.btn_test_reports);
+
+            prescription.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (view.getId() == prescription.getId()) {
+                Intent intent = new Intent(view.getContext(), DocPrescriptionActivity.class);
+                view.getContext().startActivity(intent);
+            }
         }
     }
 
     // Store a member variable for the contacts
     private List<Patient> mContacts;
     // Store the context for easy access
-    private Context mContext;
+    public Context mContext;
 
     // Pass in the contact array into the constructor
     public PatientsListAdapter(Context context, List<Patient> contacts) {

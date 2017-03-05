@@ -14,7 +14,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.Map;
 
 import static com.harsh.ecare.SignupActivity.MY_PREFS_NAME;
@@ -109,6 +114,21 @@ public class DocAppointmentActivity extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(), "Date: " + date + ", Time:" + time + ", Doctor:" + doctor + ", Patient:" + patient, Toast.LENGTH_LONG).show();
                 adapter.notifyDataSetChanged();
             }
+            Collections.sort(contacts, new Comparator<Appointment>() {
+                @Override
+                public int compare(Appointment appointment, Appointment t1) {
+                    Date date1 = new Date();
+                    Date date2 = new Date();
+                    try {
+                        date1 = new SimpleDateFormat("MM/dd/yyyy").parse(appointment.getDate());
+                        date2 = new SimpleDateFormat("MM/dd/yyyy").parse(t1.getDate());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    return date1.compareTo(date2);
+                }
+            });
+            adapter.notifyDataSetChanged();
         }
     }
 }

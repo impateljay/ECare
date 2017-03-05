@@ -59,6 +59,22 @@ public class PatientsListActivity extends AppCompatActivity {
         rvContacts.setAdapter(adapter);
         rvContacts.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
+//        rvContacts.addOnItemTouchListener(new PatientsListAdapter.RecyclerTouchListener(this, rvContacts, new ClickListener() {
+//            @Override
+//            public void onClick(View view, int position) {
+//                Patient movie = contacts.get(position);
+//                Toast.makeText(getApplicationContext(), view.getId() + " is selected!", Toast.LENGTH_SHORT).show();
+//                int a = view.getId();
+//                if(view.getId() == R.id.btn_prescription) {
+//                    Intent intent = new Intent(view.getContext(), DocPrescriptionActivity.class);
+//                    startActivity(intent);
+//                }
+//            }
+//
+//            @Override
+//            public void onLongClick(View view, int position) {
+//            }
+//        }));
     }
 
 
