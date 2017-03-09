@@ -139,8 +139,8 @@ public class DocReportActivity extends AppCompatActivity {
                                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                                     @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
                                     String userId = mDatabase.push().getKey();
-                                    Report user = new Report(fileName, downloadUrl.toString(), restoredText);
-                                    mDatabase.child(userId).child(patientName).setValue(user);
+                                    Report user = new Report(fileName, downloadUrl.toString(), restoredText, patientName);
+                                    mDatabase.child(userId).setValue(user);
                                     Toast.makeText(DocReportActivity.this, fileName + " uploaded sucessfully\n" + downloadUrl, Toast.LENGTH_SHORT).show();
                                 }
                             });
