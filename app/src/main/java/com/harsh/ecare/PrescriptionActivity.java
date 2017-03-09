@@ -22,7 +22,7 @@ import static com.harsh.ecare.SignupActivity.MY_PREFS_NAME;
 public class PrescriptionActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-    private PrescriptionAdapter adapter;
+    private PrescriptionAdapterPatient adapter;
     private ArrayList<Prescription> contacts;
 
     @Override
@@ -59,10 +59,10 @@ public class PrescriptionActivity extends AppCompatActivity {
         } catch (Exception ex) {
         }
 
-        adapter = new PrescriptionAdapter(this, contacts);
+        adapter = new PrescriptionAdapterPatient(this, contacts);
         // Attach the adapter to the recyclerview to populate items
         rvContacts.setAdapter(adapter);
-        rvContacts.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+//        rvContacts.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         // Set layout manager to position the items
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         // That's all!
