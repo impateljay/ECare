@@ -128,7 +128,9 @@ public class PatientsListAdapter extends RecyclerView.Adapter<PatientsListAdapte
                 intent.putExtra("patientName", patient.getName());
                 view.getContext().startActivity(intent);
             } else if (view.getId() == testReport.getId()) {
+                Patient patient = mContacts.get(getAdapterPosition());
                 Intent intent = new Intent(view.getContext(), DocReportActivity.class);
+                intent.putExtra("patientName", patient.getName());
                 view.getContext().startActivity(intent);
             }
         }
