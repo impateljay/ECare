@@ -29,7 +29,7 @@ public class DocPrescriptionActivity extends AppCompatActivity {
     private EditText prescriptionEditText;
     private Button sendButton;
     private DatabaseReference mDatabase;
-    private String s;
+    private String patientName;
     private PrescriptionAdapter adapter;
     private ArrayList<Prescription> contacts;
 
@@ -41,8 +41,8 @@ public class DocPrescriptionActivity extends AppCompatActivity {
         prescriptionEditText = (EditText) findViewById(R.id.editText);
         sendButton = (Button) findViewById(R.id.button8);
 
-        s = getIntent().getStringExtra("patientName");
-        setTitle(s);
+        patientName = getIntent().getStringExtra("patientName");
+        setTitle(patientName);
         mDatabase = FirebaseDatabase.getInstance().getReference("prescription");
 
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -66,8 +66,8 @@ public class DocPrescriptionActivity extends AppCompatActivity {
         try {
             SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             String restoredText = prefs.getString("loggedinUserName", null);
-            Query query = mDatabase.orderByChild("prescription").equalTo(restoredText.toString());
-            mDatabase.addValueEventListener(new ValueEventListener() {
+            Query query = mDatabase.orderByChild("doctorName").equalTo(restoredText.toString());
+            query.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -98,7 +98,7 @@ public class DocPrescriptionActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         String restoredText = prefs.getString("loggedinUserName", null);
         String userId = mDatabase.push().getKey();
-        Prescription user = new Prescription(restoredText, s, prescription, DateFormat.getDateTimeInstance().format(new Date()));
+        Prescription user = new Prescription(restoredText, patientName, prescription, DateFormat.getDateTimeInstance().format(new Date()));
         mDatabase.child(userId).setValue(user);
     }
 
@@ -115,7 +115,9 @@ public class DocPrescriptionActivity extends AppCompatActivity {
                 String doctorName = (String) singleUser.get("doctorName");
                 String patientName = (String) singleUser.get("patientName");
                 String prescription = (String) singleUser.get("prescription");
-                contacts.add(new Prescription(doctorName, patientName, prescription, dateTime));
+                if (patientName.equals(this.patientName)) {
+                    contacts.add(new Prescription(doctorName, patientName, prescription, dateTime));
+                }
 //            Toast.makeText(getApplicationContext(), "Date: " + date + ", Time:" + time + ", Doctor:" + doctor + ", Patient:" + patient, Toast.LENGTH_LONG).show();
                 adapter.notifyDataSetChanged();
             }
