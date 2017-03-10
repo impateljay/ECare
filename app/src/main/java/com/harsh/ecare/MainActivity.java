@@ -76,9 +76,15 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, DoctorLoginActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_share) {
-
+            String shareBody = "http://javaprograms4u.16mb.com/";
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "E-Care (Open it in Google Play Store to Download the Application)");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            startActivity(Intent.createChooser(sharingIntent, "Share via"));
         } else if (id == R.id.nav_send) {
-
+            Intent intent = new Intent(this, AboutUsActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

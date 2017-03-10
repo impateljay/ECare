@@ -58,16 +58,16 @@ public class DocReportActivity extends AppCompatActivity {
             }
         });
 
-        pickPhoto = (Button) findViewById(R.id.pick_photo);
-        pickPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FilePickerBuilder.getInstance().setMaxCount(5)
-                        .setSelectedFiles(filePaths)
-                        .setActivityTheme(R.style.AppTheme)
-                        .pickPhoto(DocReportActivity.this);
-            }
-        });
+//        pickPhoto = (Button) findViewById(R.id.pick_photo);
+//        pickPhoto.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FilePickerBuilder.getInstance().setMaxCount(5)
+//                        .setSelectedFiles(filePaths)
+//                        .setActivityTheme(R.style.AppTheme)
+//                        .pickPhoto(DocReportActivity.this);
+//            }
+//        });
 
         mDatabase = FirebaseDatabase.getInstance().getReference("reports");
         storage = FirebaseStorage.getInstance();
@@ -84,34 +84,34 @@ public class DocReportActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case FilePickerConst.REQUEST_CODE_PHOTO:
-                if (resultCode == Activity.RESULT_OK && data != null) {
-                    photoPaths = new ArrayList<>();
-                    photoPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_PHOTOS));
-                    for (int i = 0; i < photoPaths.size(); i++) {
-                        Uri file = Uri.fromFile(new File(photoPaths.get(i)));
-                        final String fileName = file.getLastPathSegment();
-                        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-                        String restoredText = prefs.getString("loggedinUserName", null);
-                        StorageReference riversRef = reportsRef.child(patientName).child(file.getLastPathSegment());
-                        UploadTask uploadTask = riversRef.putFile(file);
-
-                        // Register observers to listen for when the download is done or if it fails
-                        uploadTask.addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle unsuccessful uploads
-                                Toast.makeText(DocReportActivity.this, fileName + " uploaded failed", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                                //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                Toast.makeText(DocReportActivity.this, fileName + " uploaded sucessfully", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                }
+//                if (resultCode == Activity.RESULT_OK && data != null) {
+//                photoPaths = new ArrayList<>();
+//                photoPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_PHOTOS));
+//                for (int i = 0; i < photoPaths.size(); i++) {
+//                    Uri file = Uri.fromFile(new File(photoPaths.get(i)));
+//                    final String fileName = file.getLastPathSegment();
+//                    SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+//                    String restoredText = prefs.getString("loggedinUserName", null);
+//                    StorageReference riversRef = reportsRef.child(patientName).child(file.getLastPathSegment());
+//                    UploadTask uploadTask = riversRef.putFile(file);
+//
+//                    // Register observers to listen for when the download is done or if it fails
+//                    uploadTask.addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception exception) {
+//                            // Handle unsuccessful uploads
+//                            Toast.makeText(DocReportActivity.this, fileName + " uploaded failed", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                        @Override
+//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+//                            //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+//                            Toast.makeText(DocReportActivity.this, fileName + " uploaded sucessfully", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                }
+//            }
                 break;
             case FilePickerConst.REQUEST_CODE_DOC:
                 try {
