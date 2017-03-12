@@ -35,7 +35,8 @@
         <activity android:name=".DocReportActivity" />
         <activity android:name=".ReportActivity" />
         <activity android:name=".PrescriptionActivity" />
-        <activity android:name=".AboutUsActivity"></activity>
+        <activity android:name=".AboutUsActivity" />
+        <activity android:name=".BillsActivity"></activity>
     </application>
 
 </manifest>

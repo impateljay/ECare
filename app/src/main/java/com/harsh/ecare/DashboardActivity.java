@@ -14,6 +14,7 @@ public class DashboardActivity extends AppCompatActivity {
     private Button editProfile;
     private Button prescription;
     private Button report;
+    private Button bills;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,8 @@ public class DashboardActivity extends AppCompatActivity {
         editProfile = (Button) findViewById(R.id.button4);
         report = (Button) findViewById(R.id.button2);
         prescription = (Button) findViewById(R.id.button6);
+        bills = (Button) findViewById(R.id.button3);
+
 
         Appointment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +56,14 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), PrescriptionActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        bills.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), BillsActivity.class);
                 startActivity(intent);
             }
         });

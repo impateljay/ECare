@@ -2,6 +2,7 @@ package com.harsh.ecare;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,11 +37,11 @@ public class DocAppointmentsAdapter extends RecyclerView.Adapter<DocAppointments
 
         // Set item views based on your views and data model
         TextView textView = holder.nameTextView;
-        textView.setText(contact.getPatient());
+        textView.setText(Html.fromHtml(contact.getPatient()));
         TextView button = holder.messageButton;
-        button.setText(contact.getTime());
+        button.setText(Html.fromHtml(contact.getTime()));
         TextView date = holder.date;
-        date.setText(contact.getDate());
+        date.setText(Html.fromHtml(contact.getDate()));
     }
 
     @Override

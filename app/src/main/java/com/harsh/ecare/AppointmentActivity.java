@@ -163,6 +163,7 @@ public class AppointmentActivity extends AppCompatActivity {
 
         if (users != null && !users.isEmpty()) {
             contacts.clear();
+            contacts.add(new Appointment("<b>Date</b>", "<b>Time</b>", "<b>Doctor Name</b>", "<b>Patient Name</b>"));
             //iterate through each user, ignoring their UID
             for (Map.Entry<String, Object> entry : users.entrySet()) {
                 //Get user map
