@@ -3,28 +3,89 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
-    <Button
-        android:text="Appointments List"
+    <LinearLayout
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnAppointmentsList" />
+        android:orientation="horizontal">
 
-    <Button
-        android:text="Patients List"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnPatientsList" />
+        <Button
+            android:id="@+id/btnAppointmentsList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#C19403"
+            android:drawableTop="@drawable/appointment"
+            android:padding="8dp"
+            android:text="\nAppointments List"
+            android:textColor="#e8e9e9"
+            android:layout_weight="1" />
 
-    <Button
-        android:text="Edit Profile"
+        <android.support.v4.widget.Space
+            android:layout_width="20dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/btnPatientsList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#C19403"
+            android:drawableTop="@drawable/patients"
+            android:padding="8dp"
+            android:text="\nPatients List"
+            android:textColor="#e8e9e9"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnEditProfile" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnEditProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#C19403"
+            android:drawableTop="@drawable/profile"
+            android:padding="8dp"
+            android:text="\nView Profile"
+            android:textColor="#e8e9e9"
+            android:layout_weight="1" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="20dp"
+            android:layout_height="match_parent" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <!--<Button-->
+    <!--android:text="Appointments List"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/btnAppointmentsList" />-->
+
+    <!--<Button-->
+    <!--android:text="Patients List"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/btnPatientsList" />-->
+
+    <!--<Button-->
+    <!--android:text="Edit Profile"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/btnEditProfile" />-->
 
 </LinearLayout>
