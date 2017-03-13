@@ -10,6 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <LinearLayout
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -24,7 +25,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
-            android:text="\Appointments"
+            android:text="Appointments"
             android:textColor="#e8e9e9"
             android:layout_weight="1" />
 
@@ -49,6 +50,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -88,6 +90,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
